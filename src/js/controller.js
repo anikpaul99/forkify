@@ -32,6 +32,11 @@ const controlRecipes = async function () {
   }
 };
 
-['hashchange', 'load'].forEach(ev =>
-  window.addEventListener(ev, controlRecipes)
-);
+/**
+ * Will execute as soon as application starts anc call 'addHandlerRender() with the control function.
+ * @author Anik Paul
+ */
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+init();

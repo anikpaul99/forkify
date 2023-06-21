@@ -159,6 +159,16 @@ class RecipeView {
         </li>
     `;
   }
+
+  /**
+   *
+   * @param {Function} handler the control function, which will be executed as soon as the event happens.
+   * @returns {undefined}
+   * @author Anik Paul
+   */
+  addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
+  }
 }
 
 export default new RecipeView();

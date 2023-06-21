@@ -4,6 +4,8 @@ import fracty from 'fracty';
 class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
+  #errorMessage = `Oops! No recipes found for your query. Please try again!`;
+  #message = '';
 
   /**
    * Render the recieved object to the DOM
@@ -33,7 +35,7 @@ class RecipeView {
    * @this {Object} RecipeView instance
    * @author Anik Paul
    */
-  renderSpinner = function () {
+  renderSpinner() {
     const markup = `
     <div class="spinner">
       <svg>
@@ -43,7 +45,51 @@ class RecipeView {
     `;
     this.#clear();
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
-  };
+  }
+
+  /**
+   * Render an error message.
+   * @param {string} message the error message to be rendered
+   * @returns {undefined}
+   * @this {Object} RecipeView instance
+   * @author Anik Paul
+   */
+  renderError(message = this.#errorMessage) {
+    const markup = `
+    <div class="error">
+      <div>
+        <svg>
+          <use href="${icons}#icon-alert-triangle"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>;
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  /**
+   * Render an success message.
+   * @param {string} message the success message to be rendered
+   * @returns {undefined}
+   * @this {Object} RecipeView instance
+   * @author Anik Paul
+   */
+  renderMessage(message = this.#message) {
+    const markup = `
+    <div class="message">
+      <div>
+        <svg>
+          <use href="${icons}#icon-smile"></use>
+        </svg>
+      </div>
+      <p>${message}</p>
+    </div>;
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
 
   /**
    * Generate a markup string of a full recipe

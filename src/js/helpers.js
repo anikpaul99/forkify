@@ -1,5 +1,10 @@
 import { TIMEOUT_SEC } from './config';
 
+/**
+ * Will reject promise after a timeout.
+ * @returns {Promise}
+ * @author Anik Paul
+ */
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -8,6 +13,11 @@ const timeout = function (s) {
   });
 };
 
+/**
+ * Load the recipe data and throw a manual error.
+ * @returns {Promise}
+ * @author Anik Paul
+ */
 export const getJSON = async function (url) {
   try {
     const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);

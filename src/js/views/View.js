@@ -21,6 +21,40 @@ export default class View {
   }
 
   /**
+   * Create a new markup. Then will compare this new html to to the current html. Then change 'text' and 'attribute' that actually has changed from the old version to the new version.
+   * @param {Object | Object[]} data The data to be rendered (e.g recipe)
+   * @returns {undefined | string} a markup string is returned for invalid data otherwise the new markup
+   * @this {Object} View instance
+   * @author Anik Paul
+   */
+  update(data) {
+    this._data = data;
+    const newMarkup = this._generateMarkup();
+
+    const newDOM = document.createRange().createContextualFragment(newMarkup);
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(this._parentElement.querySelectorAll('*'));
+
+    newElements.forEach((newEl, i) => {
+      const curEl = curElements[i];
+
+      // Updates changed TEXT
+      if (
+        !newEl.isEqualNode(curEl) &&
+        newEl.firstChild?.nodeValue.trim() !== ''
+      ) {
+        curEl.textContent = newEl.textContent;
+      }
+
+      // Updates changed ATTRIBUTES
+      if (!newEl.isEqualNode(curEl))
+        Array.from(newEl.attributes).forEach(attr =>
+          curEl.setAttribute(attr.name, attr.value)
+        );
+    });
+  }
+
+  /**
    * Clear the element in DOM before loading a recipe
    */
   _clear() {

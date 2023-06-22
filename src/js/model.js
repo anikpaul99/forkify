@@ -74,3 +74,18 @@ export const getSearchResultsPage = function (page = state.search.page) {
   const end = page * state.search.resultsPerPage; //9;
   return state.search.results.slice(start, end);
 };
+
+/**
+ * will update the quantity of each ingredients in recipe, based on the amount of new servings.
+ * @param {number} newServings the amount of new servings.
+ * @returns {Object []} the searched results
+ * @author Anik Paul
+ */
+export const updateServings = function (newServings) {
+  state.recipe.ingredients.forEach(ing => {
+    ing.quantity = (ing.quantity * newServings) / state.recipe.servings;
+    // newQt = oldQt * newServings / oldServings
+  });
+
+  state.recipe.servings = newServings;
+};

@@ -2,6 +2,7 @@ import * as Model from './model.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -48,10 +49,26 @@ const controlSearchResults = async function () {
     await Model.loadSearchResults(query);
 
     // 3) Render results
-    resultsView.render(Model.state.search.results);
+    resultsView.render(Model.getSearchResultsPage());
+
+    // 4) Render initial pagination buttons
+    paginationView.render(Model.state.search);
   } catch (err) {
     console.log(err);
   }
+};
+
+/**
+ * Will control rendering new recipe data according the the page number. Will update the pagination buttons according to that new results.
+ * @returns {undefined}
+ * @author Anik Paul
+ */
+const controlPagination = function (goToPage) {
+  // 1) Render NEW results
+  resultsView.render(Model.getSearchResultsPage(goToPage));
+
+  // 2) Render NEW pagination buttons
+  paginationView.render(Model.state.search);
 };
 
 /**
@@ -61,5 +78,6 @@ const controlSearchResults = async function () {
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   searchView.addHandlerSearch(controlSearchResults);
+  paginationView.addHandlerClick(controlPagination);
 };
 init();

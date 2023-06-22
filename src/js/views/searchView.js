@@ -1,21 +1,21 @@
 class SearchView {
-  #parentElement = document.querySelector('.search');
+  _parentElement = document.querySelector('.search');
 
   /**
    * will return the query string for a recipe from the search field
    * @returns {string} query the query string from the search field
    */
   getQuery() {
-    const query = this.#parentElement.querySelector('.search__field').value;
-    this.#clearInput();
+    const query = this._parentElement.querySelector('.search__field').value;
+    this._clearInput();
     return query;
   }
 
   /**
    * Clear the input value in search field after a search
    */
-  #clearInput() {
-    this.#parentElement.querySelector('.search__field').value = '';
+  _clearInput() {
+    this._parentElement.querySelector('.search__field').value = '';
   }
 
   /**
@@ -25,7 +25,7 @@ class SearchView {
    * @author Anik Paul
    */
   addHandlerSearch(handler) {
-    this.#parentElement.addEventListener('submit', function (e) {
+    this._parentElement.addEventListener('submit', function (e) {
       e.preventDefault();
       handler();
     });

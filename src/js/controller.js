@@ -88,12 +88,25 @@ const controlServings = function (newServings) {
 };
 
 /**
+ * Will handle adding and removing a recipe as bookmarked
+ * @returns {undefined}
+ * @author Anik Paul
+ */
+const controlAddBookmark = function () {
+  if (!Model.state.recipe.bookmarked) Model.addBookmark(Model.state.recipe);
+  else Model.deleteBookmark(Model.state.recipe.id);
+  console.log(Model.state.recipe);
+  recipeView.update(Model.state.recipe);
+};
+
+/**
  * Will execute as soon as application starts anc call 'addHandlerRender() with the control function.
  * @author Anik Paul
  */
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
+  recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };

@@ -9,6 +9,7 @@ export const state = {
     page: 1,
     resultsPerPage: RES_PER_PAGE,
   },
+  bookmarks: [],
 };
 
 /**
@@ -32,6 +33,10 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
+
+    if (state.bookmarks.some(bookmark => bookmark.id === id))
+      state.recipe.bookmarked = true;
+    else state.recipe.bookmarked = false;
   } catch (err) {
     throw err;
   }
@@ -79,7 +84,7 @@ export const getSearchResultsPage = function (page = state.search.page) {
 /**
  * will update the quantity of each ingredients in recipe, based on the amount of new servings.
  * @param {number} newServings the amount of new servings.
- * @returns {Object []} the searched results
+ * @returns {undefined}
  * @author Anik Paul
  */
 export const updateServings = function (newServings) {
@@ -89,4 +94,33 @@ export const updateServings = function (newServings) {
   });
 
   state.recipe.servings = newServings;
+};
+
+/**
+ * will recieve a recipe and set and mark that recipe as a bookmarked
+ * @param {Object} newServings the recipe object to be bookmarked
+ * @returns {undefined}
+ * @author Anik Paul
+ */
+export const addBookmark = function (recipe) {
+  // Add bookmark
+  state.bookmarks.push(recipe);
+
+  // Mark current recipe as bookmarked
+  if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+};
+
+/**
+ * will recieve an id of a recipe and remove that recipe from bookmarks and mark it as unbookmarked
+ * @param {string} id the id of the recipe that we want to unbookmarked
+ * @returns {undefined}
+ * @author Anik Paul
+ */
+export const deleteBookmark = function (id) {
+  // Delete bookmark
+  const index = state.bookmarks.findIndex(el => el.id === id);
+  state.bookmarks.splice(index, 1);
+
+  // Mark current recipe as NOT bookmarked
+  if (id === state.recipe.id) state.recipe.bookmarked = false;
 };

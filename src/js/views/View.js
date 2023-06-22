@@ -6,16 +6,20 @@ export default class View {
   /**
    * Render the recieved object to the DOM
    * @param {Object | Object[]} data The data to be rendered (e.g recipe)
+   * @param {boolean} [render=true] If false create murkup string instead of rendering to the DOM
    * @returns {undefined | string} a markup string is returned for invalid data
    * @this {Object} View instance
    * @author Anik Paul
    */
-  render(data) {
+  render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError();
 
     this._data = data;
     const markup = this._generateMarkup();
+
+    if (!render) return markup;
+
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }

@@ -26,12 +26,14 @@ const controlRecipes = async function () {
 
     // 0) Update results view to mark selected search result
     resultsView.update(Model.getSearchResultsPage());
+
+    // 1) Updating bookmarks view
     bookmarksView.update(Model.state.bookmarks);
 
-    // 1) Loading recipe
+    // 2) Loading recipe
     await Model.loadRecipe(id);
 
-    // 2) Rendering recipe
+    // 3) Rendering recipe
     recipeView.render(Model.state.recipe);
   } catch (err) {
     recipeView.renderError();
@@ -106,11 +108,16 @@ const controlAddBookmark = function () {
   bookmarksView.render(Model.state.bookmarks);
 };
 
+const controlBookmarks = function () {
+  bookmarksView.render(Model.state.bookmarks);
+};
+
 /**
  * Will execute as soon as application starts anc call 'addHandlerRender() with the control function.
  * @author Anik Paul
  */
 const init = function () {
+  bookmarksView.addHandlerRender(controlBookmarks);
   recipeView.addHandlerRender(controlRecipes);
   recipeView.addHandlerUpdateServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddBookmark);
@@ -118,3 +125,11 @@ const init = function () {
   paginationView.addHandlerClick(controlPagination);
 };
 init();
+
+/**
+ * clear local storage (only for development stage)
+ */
+const clearBookmarks = function () {
+  localStorage.clear('bookmarks');
+};
+// clearBookmarks();

@@ -97,6 +97,15 @@ export const updateServings = function (newServings) {
 };
 
 /**
+ * will store the bookmarks in local storage when a recipe is bookmarked or unbookmarked
+ * @returns {undefined}
+ * @author Anik Paul
+ */
+const persistBookmarks = function () {
+  localStorage.setItem('bookmarks', JSON.stringify(state.bookmarks));
+};
+
+/**
  * will recieve a recipe and set and mark that recipe as a bookmarked
  * @param {Object} newServings the recipe object to be bookmarked
  * @returns {undefined}
@@ -108,6 +117,8 @@ export const addBookmark = function (recipe) {
 
   // Mark current recipe as bookmarked
   if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+
+  persistBookmarks();
 };
 
 /**
@@ -123,4 +134,13 @@ export const deleteBookmark = function (id) {
 
   // Mark current recipe as NOT bookmarked
   if (id === state.recipe.id) state.recipe.bookmarked = false;
+
+  persistBookmarks();
 };
+
+const init = function () {
+  const storage = localStorage.getItem('bookmarks');
+  if (storage) state.bookmarks = JSON.parse(storage);
+};
+init();
+console.log(state.bookmarks);

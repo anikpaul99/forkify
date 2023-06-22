@@ -8,6 +8,16 @@ class BookmarksView extends View {
   _message = '';
 
   /**
+   * will listen for load event
+   * @param {Function} handler the control function (controlBookmarks), which will be executed as soon as the event happens.
+   * @returns {undefined}
+   * @author Anik Paul
+   */
+  addHandlerRender(handler) {
+    window.addEventListener('load', handler);
+  }
+
+  /**
    * Generate a markup string of a searched recipe
    * @returns {string}
    * @author Anik Paul

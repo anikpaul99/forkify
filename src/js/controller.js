@@ -109,6 +109,11 @@ const controlAddBookmark = function () {
   bookmarksView.render(Model.state.bookmarks);
 };
 
+/**
+ * Will render the bookmarks in the bookmark panel
+ * @returns {undefined}
+ * @author Anik Paul
+ */
 const controlBookmarks = function () {
   bookmarksView.render(Model.state.bookmarks);
 };

@@ -14,7 +14,7 @@ export const state = {
 /**
  * Load recipe by fetching data from an api
  * @param {string} id The id from users window
- * @returns {undefined}
+ * @returns {Object} the recipe object
  * @author Anik Paul
  */
 export const loadRecipe = async function (id) {
@@ -32,7 +32,6 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
-    console.log(state.recipe);
   } catch (err) {
     throw err;
   }
@@ -41,7 +40,7 @@ export const loadRecipe = async function (id) {
 /**
  * Load searched recipe by fetching data from an api
  * @param {string} query the search query for a particular recipe
- * @returns {undefined}
+ * @returns {Object []} the searched results
  * @author Anik Paul
  */
 export const loadSearchResults = async function (query) {
@@ -65,7 +64,7 @@ export const loadSearchResults = async function (query) {
 /**
  * will get the first ten recipes from the search.results array.
  * @param {number} page the page number of the results.
- * @returns {undefined}
+ * @returns {Object []} the searched results
  * @author Anik Paul
  */
 export const getSearchResultsPage = function (page = state.search.page) {
@@ -73,6 +72,5 @@ export const getSearchResultsPage = function (page = state.search.page) {
 
   const start = (page - 1) * state.search.resultsPerPage; //0;
   const end = page * state.search.resultsPerPage; //9;
-
   return state.search.results.slice(start, end);
 };

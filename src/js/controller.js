@@ -1,4 +1,5 @@
 import * as Model from './model.js';
+import { MODAL_CLOSE_SEC } from './config.js';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
@@ -119,7 +120,42 @@ const controlBookmarks = function () {
 };
 
 /**
- * Will execute as soon as application starts anc call 'addHandlerRender() with the control function.
+ * Will handle adding a new recipe and bookmark it
+ * @returns {undefined}
+ * @author Anik Paul
+ */
+const controlAddRecipe = async function (newRecipe) {
+  try {
+    // Show loading spinner
+    addRecipeView.renderSpinner();
+
+    // Updload the recipe data
+    await Model.uploadRecipe(newRecipe);
+
+    // Render recipe
+    recipeView.render(Model.state.recipe);
+
+    // Success message
+    addRecipeView.renderMessage();
+
+    // Render bookmark view
+    bookmarksView.render(Model.state.bookmarks);
+
+    // Change ID in url
+    window.history.pushState(null, '', `#${Model.state.recipe.id}`);
+
+    // Close form window
+    setTimeout(function () {
+      addRecipeView.toggleWindow();
+    }, MODAL_CLOSE_SEC * 1000);
+  } catch (err) {
+    console.error(err);
+    addRecipeView.renderError(err.message);
+  }
+};
+
+/**
+ * Will execute as soon as application starts anc call 'addHandler() with the control function.
  * @author Anik Paul
  */
 const init = function () {
@@ -129,5 +165,6 @@ const init = function () {
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();

@@ -2,6 +2,7 @@ import { TIMEOUT_SEC } from './config';
 
 /**
  * Will reject promise after a timeout.
+ * @param {number} s seconds that we want this promise to reject after
  * @returns {Promise}
  * @author Anik Paul
  */
@@ -14,13 +15,25 @@ const timeout = function (s) {
 };
 
 /**
- * Load the recipe data and throw a manual error.
+ * Load or send the recipe data according to the condition and throw a manual error.
+ * @param {string} url the url to be sent to api
+ * @param {undefined} [uploadData = undefined] the new recipe object
  * @returns {Promise}
  * @author Anik Paul
  */
-export const getJSON = async function (url) {
+export const AJAX = async function (url, uploadData = undefined) {
   try {
-    const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]);
+    const fetchPro = uploadData
+      ? fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(uploadData),
+        })
+      : fetch(url);
+
+    const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
     const data = await res.json();
 
     if (!res.ok) throw new Error(`${data.message} (${res.status})`);

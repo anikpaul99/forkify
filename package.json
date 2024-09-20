@@ -2,6 +2,14 @@
   "name": "forkify",
   "version": "1.0.0",
   "description": "Recipe application",
+  "author": {
+    "name": "Anik Paul",
+    "email": "hello@paulanik.com",
+    "url": "https://paulanik.com",
+    "linkedin": "https://www.linkedin.com/in/anik-paul-dev/",
+    "dev.to": "https://dev.to/anikpaul",
+    "github": "https://github.com/anikpaul99"
+  },
   "default": "index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "targets": {
@@ -11,7 +19,6 @@
     "start": "parcel index.html",
     "build": "parcel build index.html --dist-dir ./dist"
   },
-  "author": "Anik Paul",
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.9.2",
